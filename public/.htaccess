@@ -1,0 +1,40 @@
+# JejakPanel - pengaturan keamanan untuk hosting Apache/LiteSpeed (cPanel)
+# File ini tidak berpengaruh saat dijalankan dengan `php -S` di laptop.
+
+# 1. Semua kunjungan dipaksa memakai HTTPS, dan file sensitif ditolak
+#    (memakai mod_rewrite agar berlaku di Apache maupun LiteSpeed)
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond %{HTTPS} !=on
+    RewriteCond %{HTTP:X-Forwarded-Proto} !https
+    RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+    # file/folder tersembunyi (kecuali .well-known untuk perpanjangan SSL)
+    RewriteRule (^|/)\.(?!well-known/) - [F]
+    # file cadangan, database, log, konfigurasi
+    RewriteRule \.(bak|sql|log|ini|md|zip)$ - [F,NC]
+</IfModule>
+
+# 2. Daftar isi folder tidak boleh ditampilkan
+Options -Indexes
+
+# Ikon logo (SVG) dikirim dengan tipe yang benar
+AddType image/svg+xml .svg
+
+# 3. Lapisan kedua untuk file tersembunyi dan cadangan (Apache 2.4)
+<FilesMatch "^\.|\.(bak|sql|log|ini|md|zip)$">
+    Require all denied
+</FilesMatch>
+
+# 4. Header keamanan
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "DENY"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+    Header always set Strict-Transport-Security "max-age=31536000" env=HTTPS
+    Header always set Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'"
+</IfModule>
+
+# 5. Aturan blokir IP ditulis otomatis oleh JejakPanel di bagian paling atas file ini,
+#    di antara penanda "# BEGIN JejakPanel blokir" dan "# END JejakPanel blokir".

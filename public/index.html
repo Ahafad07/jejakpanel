@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>JejakPanel - Ringkasan keamanan</title>
+  <link rel="icon" href="assets/logo.svg?v=6" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/style.css?v=6">
+</head>
+<body>
+  <header class="shell">
+    <div class="shell-kiri">
+      <a class="shell-nama" href="index.html"><img src="assets/logo.svg?v=6" alt="" width="24" height="24"><b>JejakPanel</b></a>
+      <span class="shell-situs" title="Website yang dipantau"><span class="muted">Website dipantau:</span> <span class="mono" id="situs">…</span></span>
+    </div>
+    <div class="shell-kanan"><span id="pantau" class="pantau"></span><button type="button" id="tombol-demo" class="shell-tombol" aria-expanded="false" aria-controls="tile-demo" hidden>Mode demo</button></div>
+  </header>
+
+  <main>
+    <div class="kepala-hal">
+      <h1 class="judul-hal">Ringkasan keamanan</h1>
+      <p class="meta-hal" id="meta-hal">&nbsp;</p>
+    </div>
+
+    <div id="status"></div>
+
+    <section class="tile" id="tile-demo" hidden>
+      <div class="tile-isi" id="demo"></div>
+    </section>
+
+    <section class="kpi" aria-label="Angka ringkasan">
+      <div class="kpi-utama" id="kpi-perlu-wadah">
+        <div class="kpi-label">Perlu tindakan</div>
+        <div class="kpi-angka" id="kpi-perlu">–</div>
+        <div class="kpi-ket" id="kpi-perlu-ket">&nbsp;</div>
+      </div>
+      <div>
+        <div class="kpi-label">IP diblokir</div>
+        <div class="kpi-angka" id="kpi-blokir">–</div>
+        <div class="kpi-ket" id="kpi-blokir-ket">&nbsp;</div>
+      </div>
+      <div>
+        <div class="kpi-label">Ditolak server</div>
+        <div class="kpi-angka" id="kpi-ditolak">–</div>
+        <div class="kpi-ket">permintaan dari IP terblokir (403)</div>
+      </div>
+      <div>
+        <div class="kpi-label">Log dianalisis</div>
+        <div class="kpi-angka" id="kpi-request">–</div>
+        <div class="kpi-ket" id="kpi-request-ket">&nbsp;</div>
+      </div>
+    </section>
+
+    <section class="tile">
+      <div class="tile-kepala">
+        <h2>Trafik 24 jam terakhir</h2>
+        <p>Merah: permintaan dari IP yang tercatat sebagai penyerang</p>
+      </div>
+      <div class="tile-isi"><div class="grafik-wadah"><canvas id="grafik" aria-label="Grafik trafik per jam, 24 jam terakhir"></canvas></div></div>
+    </section>
+
+    <section class="tile" id="tile-insiden">
+      <div class="tile-kepala">
+        <h2>Insiden <span class="hitung" id="hitung-insiden"></span></h2>
+        <p>Klik baris untuk membuka kronologi</p>
+      </div>
+      <div class="alat">
+        <div class="tab-filter" role="tablist" aria-label="Saring insiden" id="tab-filter"></div>
+        <div class="alat-kanan">
+          <input type="search" id="cari" class="cari" placeholder="Cari IP atau alur…" aria-label="Cari IP atau alur serangan" autocomplete="off" spellcheck="false">
+          <button type="button" class="btn bahaya kecil" id="tombol-massal" hidden></button>
+        </div>
+      </div>
+      <div id="konfirmasi-massal"></div>
+      <div class="tabel-wadah">
+        <table>
+          <thead>
+            <tr>
+              <th>Risiko</th><th>Sumber</th><th>Alur serangan</th><th>Terakhir aktif</th>
+              <th class="kanan">Permintaan</th><th>Status</th><th></th>
+            </tr>
+          </thead>
+          <tbody id="tabel-insiden"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <details class="ekspor" id="tile-blokir" hidden>
+      <summary>
+        <span class="ekspor-judul">Ekspor aturan blokir <span class="hitung" id="hitung-aturan"></span></span>
+        <span class="ekspor-ket" id="ekspor-ket"></span>
+      </summary>
+      <div class="ekspor-isi" id="aturan-semua"></div>
+    </details>
+
+    <p class="catatan">Purwarupa untuk Kartika Cyber Hackathon 2026. Data berasal dari log tiruan pada website uji milik sendiri; alamat IP memakai blok privat (10.x) dan blok dokumentasi RFC 5737.</p>
+  </main>
+
+  <script src="assets/vendor/chart.umd.js?v=4.4.4"></script>
+  <script src="assets/app.js?v=7"></script>
+  <script src="assets/dashboard.js?v=7"></script>
+</body>
+</html>

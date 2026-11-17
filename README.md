@@ -150,6 +150,3 @@ Tambahkan `--cepat` untuk kecepatan 2x.
 - **Versi 7**: dashboard langsung tampil tanpa menunggu siklus; lalu lintas latar yang tertinggal disusul bertahap (maksimal 2 jam per siklus); peringatan "Koneksi ke server terputus" baru muncul setelah 3 kali gagal berturut-turut; permintaan pembaruan tidak lagi menumpuk.
 - **Versi 6**: data contoh 24 jam dimuat otomatis, lalu lintas latar terus-menerus, simulasi dengan beberapa penyerang, Blokir semua.
 
-## Deklarasi alat bantu
-
-Sebagian kode disusun dengan bantuan asisten AI (Claude) lalu ditinjau dan dikembangkan sendiri.
